@@ -1,0 +1,15 @@
+android_sdk_config:
+  add_gradle_deps: true
+
+output:
+  dart:
+    path: lib/toast.g.dart
+    structure: single_file
+
+classes:
+  - 'android.widget.Toast'
+  - 'android.content.Context'
+  - 'android.app.Activity'
+  - 'java.lang.Runnable'
+  - 'android.bluetooth.BluetoothManager'
+  - 'android.bluetooth.BluetoothAdapter'
