@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:the_second_engine_example/toast.g.dart' as jni;
 import 'package:workmanager/workmanager.dart';
 
@@ -74,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         .getSystemService(jni.Context.BLUETOOTH_SERVICE)!
         .as(jni.BluetoothManager.type, releaseOriginal: true);
     adapter = manager.getAdapter()!;
+    Permission.bluetoothConnect.request();
     super.initState();
   }
 
