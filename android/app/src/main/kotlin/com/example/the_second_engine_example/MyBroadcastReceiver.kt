@@ -12,14 +12,14 @@ import dev.fluttercommunity.workmanager.BackgroundWorker
 /**
  * This reacts to a new bluetooth device being connected (literally any)=
  */
-class BluetoothDeviceConnectedReceiver : BroadcastReceiver() {
+class MyBroadcastReceiver : BroadcastReceiver() {
     companion object {
-        const val TAG = "BtDevConnReceiver"
+        const val TAG = "MyReceiver"
         const val TASK_ID_ROUTINE_UPDATE = "the_second_engine_example.test_receiver"
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        Log.d(TAG, "Enqueuing one time work from bt dev receiver")
+        Log.d(TAG, "Enqueuing one time work from MyReceiver")
         // this is stuff imported from dev.fluttercommunity.workmanager
         val oneOffTaskRequest = OneTimeWorkRequest.Builder(BackgroundWorker::class.java)
             .setInputData(

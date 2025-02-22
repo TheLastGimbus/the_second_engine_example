@@ -1,4 +1,5 @@
 import 'dart:isolate';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
@@ -19,7 +20,7 @@ void main() {
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) async {
     print(
-        'BGN: waiting 15 seconds (open app now!) (Isolate ${Isolate.current.hashCode}');
+        'BGN: waiting 60 seconds (open app now!) (Isolate ${Isolate.current.hashCode}');
     final ctx = jni.Context.fromReference(Jni.getCachedApplicationContext());
     final manager = ctx
         .getSystemService(jni.Context.BLUETOOTH_SERVICE)!
@@ -31,7 +32,7 @@ void callbackDispatcher() {
     })
         .listen((i) {})
         .asFuture()
-        .timeout(Duration(seconds: 15), onTimeout: () {});
+        .timeout(Duration(seconds: 60), onTimeout: () {});
     print('BGN: bye bye');
     return true;
   });
@@ -67,9 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
   late final jni.Context ctx;
   late final jni.BluetoothManager manager;
   late final jni.BluetoothAdapter adapter;
+  late final Random random;
 
   @override
   void initState() {
+    random = Random();
     final ctx = jni.Context.fromReference(Jni.getCachedApplicationContext());
     manager = ctx
         .getSystemService(jni.Context.BLUETOOTH_SERVICE)!
@@ -101,13 +104,24 @@ class _MyHomePageState extends State<MyHomePage> {
             FilledButton(
               onPressed: () {
                 Workmanager().registerOneOffTask(
-                  'uniqueName',
+                  random.nextDouble().toString(),
                   'taskName',
                   initialDelay: Duration(seconds: 5),
                 );
                 print('will run in 5 seconds...');
               },
               child: Text("Scheduele one time task"),
+            ),
+            FilledButton(
+              onPressed: () {
+                Workmanager().registerOneOffTask(
+                  random.nextDouble().toString(),
+                  'taskName',
+                  initialDelay: Duration(minutes: 5),
+                );
+                print('will run in 5 MINUTES...');
+              },
+              child: Text("...or one delayed by 5 minutes"),
             ),
             SizedBox(height: 16),
             const Text('You crashed flutter this many times:'),
